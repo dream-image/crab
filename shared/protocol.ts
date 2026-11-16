@@ -1,4 +1,8 @@
 export const PAGE_CONTEXT_CHANNEL = 'maimai-page-context/v1';
+export const PAGE_CONTEXT_PROTOCOL_VERSION = 1;
+export const PAGE_EXTENSION_STORE_URL = 'https://chromewebstore.google.com/detail/麦麦助手/fkaneeflnkngdlhfldijlaffapfonihl';
+
+export type ExtensionRecovery = 'install' | 'update';
 
 export const PAGE_CONTEXT_MATCHES = [
   'https://*.kuaishou.com/*',
@@ -41,6 +45,8 @@ export interface BrowserToolResult {
   ok: boolean;
   data?: unknown;
   error?: string;
+  /** 前置检测失败时的恢复入口；前端使用固定商店地址，不执行消息中的任意链接。 */
+  extensionRecovery?: ExtensionRecovery;
 }
 
 export function isBrowserToolCall(value: unknown): value is BrowserToolCall {
@@ -65,6 +71,10 @@ export type PageContextResponse = {
   channel: typeof PAGE_CONTEXT_CHANNEL;
   direction: 'response';
   requestId: string;
+  /** 由内容脚本提供的实际安装版本；缺失时不视为通过版本检测。 */
+  extensionVersion?: string;
+  /** 内容脚本支持的通信协议版本；不同于工具结果的 v 字段。 */
+  protocolVersion?: number;
 } & ({ ok: true; result: PageContextResult } | { ok: false; error: string });
 
 export function isPageContextRequest(value: unknown): value is PageContextRequest {
