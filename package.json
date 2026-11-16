@@ -1,0 +1,29 @@
+{
+  "name": "crab",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "dev": "yarn build:wasm && wxt",
+    "build": "yarn build:wasm && wxt build",
+    "build:wasm": "wasm-pack build rust --target web --out-dir pkg --release --no-opt",
+    "typecheck": "yarn build:wasm && wxt prepare && tsc --noEmit",
+    "postinstall": "wxt prepare"
+  },
+  "dependencies": {
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.1.0",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@wxt-dev/module-react": "1.2.2",
+    "devtools-protocol": "0.0.1744848",
+    "typescript": "~5.9.3",
+    "vite": "8.3.8",
+    "wasm-pack": "0.15.1",
+    "wxt": "0.21.5"
+  }
+}
